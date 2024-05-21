@@ -37,6 +37,24 @@
             display: inline-block;
             cursor: pointer;
         }
+        //right
+        .user-data{
+            position: absolute;
+            height: 80%;
+            top: 15%;
+            right: 100px;
+            display: flex;
+            flex-direction: column;
+            p{
+                text-align: right;
+                color: white;
+                font-weight: 500;
+                margin: 0;
+                margin-top: 3px;
+                font-size: 15px;
+                letter-spacing: .5px;
+            }
+        }
         .user-auth{
             position: absolute;
             width: 80px;
@@ -68,7 +86,7 @@
             flex-direction: column;
             animation: submenu-auth 0.4s;
             overflow: hidden;
-            a{
+            a, button{
                 width: 100%;
                 border: none;
                 font-size: 16px;
@@ -88,6 +106,11 @@
                 border-bottom: 1px solid #767d8d;
             }
         }
+        .options-inUser{
+            height: 50px;
+            width: 150px;
+            animation: submenu-auth-inUser 0.3s !important;
+        }
         @keyframes submenu-auth {
             0%{
                 height: 0px;
@@ -96,5 +119,14 @@
                 height: 100px;
             }
         }
+        @keyframes submenu-auth-inUser {
+            0%{
+                height: 0px;
+            }
+            100%{
+                height: 50px;
+            }
+        }
     }
+    
 }

@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAlignJustify, faUser} from '@fortawesome/free-solid-svg-icons';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Menu.scss';
 import Search from './components/search/Search';
+import { useAuth } from '../../contexts/AuthContexts';
+import axios from 'axios';
+
+const endpoint = 'http://localhost:8000/api';
 
 export default function Menu({changeLateralMenuShow}) {
+    const {user, setUser} = useAuth();
     const [subMenuAuth, setSubMenuAuth] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
 
     const handleAuthClick = () => {
         setSubMenuAuth(!subMenuAuth);
@@ -17,6 +23,20 @@ export default function Menu({changeLateralMenuShow}) {
         // Establecer subMenuAuth en false cuando se navega
         setSubMenuAuth(false);
     }, [location]);
+
+    const logout = ()=> {
+        if(user){
+            const token = document.cookie.split('; ').find(row => row.startsWith('authToken='))?.split('=')[1];
+            axios.get(`${endpoint}/logout`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setUser(null);
+            document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            navigate('/');
+        }
+    }
 
     return (
         <div className="content">
@@ -28,13 +48,24 @@ export default function Menu({changeLateralMenuShow}) {
                     <Link to="/">Librería</Link>
                 </nav>
                 <Search />
+                {user &&(
+                    <div className="user-data">
+                        <p>{user.data.name}</p>
+                        <p>{user.data.role}</p>
+                    </div>
+                )}
                 <div className="user-auth" onClick={handleAuthClick}>
                     <FontAwesomeIcon icon={faUser} />
                 </div>
-                {subMenuAuth && (
+                {subMenuAuth && !user &&(
                     <div className="user-auth-options">
                         <Link to="/login">Iniciar sesión</Link>
                         <Link to="/register">Crear cuenta</Link>
+                    </div>
+                )}
+                {subMenuAuth && user &&(
+                    <div className="user-auth-options options-inUser">
+                        <button onClick={logout}>Cerrar sesión</button>
                     </div>
                 )}
             </div>

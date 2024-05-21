@@ -1,10 +1,35 @@
+import {useState} from 'react';
+import { useAuth } from '../../contexts/AuthContexts';
+import { useNavigate } from 'react-router-dom';
 import './Login.scss';
 import {useForm} from 'react-hook-form';
+import axios from 'axios';
+
+const endpoint = 'http://localhost:8000/api';
 
 export default function Login() {
+    const {setUser} = useAuth();
+    const navigate = useNavigate();
+    const [errorLogin, setErrorLogin] = useState({value: false, error: {}})
+
     const {register, handleSubmit, formState: {errors}} = useForm();
-    const submit = handleSubmit((data)=>{
-        console.log(data)
+    const submit = handleSubmit( async (data)=> {
+        try {
+            const {email, password} = data;
+            const response = await axios.post(`${endpoint}/login`, {email: email, password: password});
+            localStorage.setItem('authToken', response.data.access_token);
+            setUser(response.data);
+            document.cookie = `authToken=${response.data.access_token}; max-age=3600; path=/`;
+            navigate('/');
+        } catch (error) {
+            if (error.response) {
+                setErrorLogin({value: true, ...error.response.data});
+                console.error('Error en la respuesta del servidor:', error.response.data.message);
+            } else {
+                setErrorLogin({value: true, message: 'Error al iniciar sesión', dataError: 'general'});
+                console.error('Error al enviar la petición:', error.message);
+            }
+        }
     })
 
     return(
@@ -15,31 +40,23 @@ export default function Login() {
                 <label htmlFor="correo">Correo</label>
                 <input 
                     type="email" 
-                    {...register('correo', { 
-                    required: { value: true, message: 'El correo es requerido' }, 
-                    pattern: { 
-                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 
-                        message: 'El correo debe ser una dirección de correo válida' 
-                    } 
+                    {...register('email', { 
+                    required: { value: true, message: 'El correo es requerido' }
                     })} 
                 />
-                {errors.correo && <span>{errors.correo.message}</span>}
+                {errorLogin.value && errorLogin.dataError ==='email' && <span>{errorLogin.message}</span>}
 
                 <label htmlFor="clave">Contraseña</label>
                 <input 
                     type="password" 
-                    {...register('clave', { 
-                    required: { value: true, message: 'La contraseña es requerida' }, 
-                    minLength: { value: 6, message: 'La contraseña debe tener al menos 6 caracteres' }, 
-                    pattern: { 
-                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/, 
-                        message: 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número' 
-                    } 
+                    {...register('password', { 
+                    required: { value: true, message: 'La contraseña es requerida' }
                     })} 
                 />
-                {errors.clave && <span>{errors.clave.message}</span>}
+                {errorLogin.value && errorLogin.dataError ==='password' && <span>{errorLogin.message}</span>}
 
                 <button type='submit'>Crear cuenta</button>
+                {errorLogin.value && errorLogin.dataError ==='general' && <span>{errorLogin.message}</span>}
             </form>
         </div>
     )

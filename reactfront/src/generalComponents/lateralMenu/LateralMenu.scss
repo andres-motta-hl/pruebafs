@@ -50,7 +50,7 @@
         grid-template-columns: 1fr;
         grid-template-rows: repeat(2, 1fr);
         row-gap: 15px;
-        a{
+        a, button{
             padding: 10px;
             font-size: 17px;
             font-weight: 500;
@@ -67,6 +67,9 @@
                 background: #3d5a9f;
                 color: white;
             }
+        }
+        button{
+            transform: translateY(55px);
         }
     }
     @keyframes lateral-menu-animation {
