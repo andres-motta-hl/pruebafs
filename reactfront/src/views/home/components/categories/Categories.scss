@@ -1,0 +1,44 @@
+$primary-colors: (
+  "blue": #1888ff,
+  "indigo": #7b29ff,
+  "orange": #ff8724,
+  "darkgreen": #36b754,
+  "purple": #7950c4,
+  "green": #41cca2,
+  "red": #e44a59,
+  "teal": #e45d9c
+);
+
+
+.categories-content{
+    margin-top: 25px;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(8, 1fr);
+    column-gap: 12px;
+    > div {
+        padding: 12px;
+        color: white;
+        background: red;
+        border-radius: 5px;
+        letter-spacing: .5px;
+        font-weight: 500;
+        font-size: 17px;
+        text-align: center;
+        opacity: 0.76;
+        cursor: pointer;
+
+        $i: 1;
+        @each $color in map-keys($primary-colors) {
+            &:nth-child(#{$i}) {
+                background-color: map-get($primary-colors, $color);
+            }
+            $i: $i + 1;
+        }
+
+        &:hover{
+            opacity: 1;
+        }
+    }
+    
+}

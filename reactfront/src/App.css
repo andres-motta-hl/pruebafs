@@ -1,0 +1,9 @@
+.limiter{
+  width: 88%;
+  height: auto;
+  max-width: 1500px;
+  display: flex;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
