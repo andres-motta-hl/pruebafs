@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAlignJustify, faUser} from '@fortawesome/free-solid-svg-icons';
+import { faAlignJustify, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Menu.scss';
 import Search from './components/search/Search';
@@ -9,8 +9,8 @@ import axios from 'axios';
 
 const endpoint = 'http://localhost:8000/api';
 
-export default function Menu({changeLateralMenuShow}) {
-    const {user, setUser} = useAuth();
+export default function Menu({ changeLateralMenuShow }) {
+    const { user, setUser } = useAuth();
     const [subMenuAuth, setSubMenuAuth] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
@@ -20,23 +20,27 @@ export default function Menu({changeLateralMenuShow}) {
     };
 
     useEffect(() => {
-        // Establecer subMenuAuth en false cuando se navega
+        // Cerrar el submenú de autenticación cuando se navega
         setSubMenuAuth(false);
     }, [location]);
 
-    const logout = ()=> {
-        if(user){
-            const token = document.cookie.split('; ').find(row => row.startsWith('authToken='))?.split('=')[1];
-            axios.get(`${endpoint}/logout`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setUser(null);
-            document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-            navigate('/');
+    const logout = async () => {
+        if (user) {
+            try {
+                const token = document.cookie.split('; ').find(row => row.startsWith('authToken='))?.split('=')[1];
+                await axios.get(`${endpoint}/logout`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setUser(null);
+                document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                navigate('/');
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+            }
         }
-    }
+    };
 
     return (
         <div className="content">
@@ -48,7 +52,7 @@ export default function Menu({changeLateralMenuShow}) {
                     <Link to="/">Librería</Link>
                 </nav>
                 <Search />
-                {user &&(
+                {user && (
                     <div className="user-data">
                         <p>{user.data.name}</p>
                         <p>{user.data.role}</p>

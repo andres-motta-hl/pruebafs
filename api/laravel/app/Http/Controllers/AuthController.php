@@ -78,9 +78,8 @@ class AuthController extends Controller{
     {
         // Obtén el usuario autenticado
         $user = $request->user();
+        $user->id = $user->id;
 
-        // Realiza las operaciones necesarias con los datos del usuario
-        // Por ejemplo, puedes devolver los datos del usuario como una respuesta JSON
         return response()->json(['data' => $user]);
     }
 

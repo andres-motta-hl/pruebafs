@@ -12,7 +12,7 @@ export default function Login() {
     const navigate = useNavigate();
     const [errorLogin, setErrorLogin] = useState({value: false, error: {}})
 
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {register, handleSubmit} = useForm();
     const submit = handleSubmit( async (data)=> {
         try {
             const {email, password} = data;

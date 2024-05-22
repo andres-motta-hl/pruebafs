@@ -14,8 +14,10 @@ $primary-colors: (
     margin-top: 25px;
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     column-gap: 12px;
+    row-gap: 12px;
+    margin-bottom: 40px;
     > div {
         padding: 12px;
         color: white;
@@ -40,5 +42,10 @@ $primary-colors: (
             opacity: 1;
         }
     }
-    
+    @media (max-width: 1500px) {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    @media (max-width: 1400px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }
