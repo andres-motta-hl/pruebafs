@@ -104,7 +104,7 @@ export default function PrevBook() {
         if (user) {
             await addLoan();
         } else {
-            navigate('/register')
+            navigate('/login')
         }
     }
 

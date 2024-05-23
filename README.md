@@ -19,20 +19,15 @@ Pendiente a realizar:
 # Despligue del proyecto
 * Clonar el repositorio: Api: Larevel Reactfront: react
 * Desde consola ir al directorio api/laravel
-* Ejecutar: composer install y hacer el respectivo enlace con la base de datos local en el archvio .env.
-* Ejecutar migraciones y seeders.
-* Orden de ejecución de migraciones:
-  - php artisan migrate --path=database/migrations/0001_01_01_000000_create_users_table.php
-  - php artisan migrate --path=database/migrations/2024_05_21_172423_create_categories_table.php
-  - php artisan migrate --path=database/migrations/2024_05_21_151041_create_books_table.php
-  - php artisan migrate --path=database/migrations/2024_05_21_145331_create_loans_table.php
 * Abrir xampp y habilitar servicios.
+* Ejecutar: composer install y hacer el respectivo enlace con la base de datos local en el archvio .env.
+* Ejecutar composer require laravel/sanctum.
+* Ejecutar migraciones y seeders.
+* Ejecutar php artisan serve.
 * Ahora desde consola ir al directorio de reactFront
 * Ejecutar: npm i y luego npm start.
 
 # Pruebas desde la web
-* Crear usuarios de prueba
-* Desde SQL local cambiar el atributo "role" a "admin" a un registro.
 * Iniciar sesión desde el registro admin.
 * Este rol podrá actualizar los datos de los libros.
 

@@ -55,7 +55,7 @@ export default function Login() {
                 />
                 {errorLogin.value && errorLogin.dataError ==='password' && <span>{errorLogin.message}</span>}
 
-                <button type='submit'>Crear cuenta</button>
+                <button type='submit'>Iniciar sesión</button>
                 {errorLogin.value && errorLogin.dataError ==='general' && <span>{errorLogin.message}</span>}
             </form>
         </div>

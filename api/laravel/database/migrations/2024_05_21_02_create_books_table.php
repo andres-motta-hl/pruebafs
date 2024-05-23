@@ -19,7 +19,7 @@ return new class extends Migration
             $table->float('rating');
             $table->integer('stock');
             $table->string('photo_url');
-            $table->string('description');
+            $table->text('description');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
