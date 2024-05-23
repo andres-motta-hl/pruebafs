@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('author');
             $table->float('rating');
             $table->integer('stock');
-            $table->integer('photo_url');
-            $table->integer('description');
+            $table->string('photo_url');
+            $table->string('description');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
