@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UsersSeeder::class,
-            //CategoriesSeeder::class,
-            //BooksSeeder::class,
-            //LoansSeeder::class
+            CategoriesSeeder::class,
+            BooksSeeder::class,
+            LoansSeeder::class
         ]);
     }
 }
